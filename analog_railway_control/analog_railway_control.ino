@@ -30,8 +30,7 @@ void accelerate_train()
 
   for (int speed = 0; speed <= 400; speed++)
   {
-    motors.setM1Speed(speed);
-    delay(speed/2);
+    set_speed_and_delay(speed);
   }
 }
 
@@ -39,11 +38,21 @@ void slow_train_down()
 {
   for (int speed = 400; speed >= 0; speed--)
   {
-    motors.setM1Speed(speed);
-    delay(speed/2);
+    set_speed_and_delay(speed);
   }
   
   digitalWrite(LED_PIN, LOW);
+}
+
+void set_speed_and_delay(speed)
+{
+  motors.setM1Speed(speed);
+    
+  if (speed < 100) {
+    delay(2);
+  } else {
+    delay(speed/3);
+  }
 }
 
 void loop()
