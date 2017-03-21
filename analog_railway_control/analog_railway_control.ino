@@ -44,7 +44,7 @@ void slow_train_down()
   digitalWrite(LED_PIN, LOW);
 }
 
-void set_speed_and_delay(speed)
+void set_speed_and_delay(int speed)
 {
   motors.setM1Speed(speed);
     
