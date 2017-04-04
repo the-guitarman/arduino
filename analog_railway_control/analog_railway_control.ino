@@ -15,11 +15,24 @@ int change_of_velocity = 0;
 
 void setup()
 {
+  //motors.setM2Speed(400);
+  
   pinMode(LED_PIN, OUTPUT);
   
   // uncomment one or both of the following lines if your motors' directions need to be flipped
   //motors.flipM1(true);
   //motors.flipM2(true);
+}
+
+void set_speed_and_delay(int speed)
+{
+  motors.setM1Speed(speed);
+    
+  if (speed < 100) {
+    delay(2);
+  } else {
+    delay(speed/3);
+  }
 }
 
 void accelerate_train() 
@@ -32,27 +45,22 @@ void accelerate_train()
   {
     set_speed_and_delay(speed);
   }
+
+  change_of_velocity = 0;
 }
 
 void slow_train_down()
 {
+  change_of_velocity = 1;
+  
   for (int speed = 400; speed >= 0; speed--)
   {
     set_speed_and_delay(speed);
   }
   
   digitalWrite(LED_PIN, LOW);
-}
 
-void set_speed_and_delay(int speed)
-{
-  motors.setM1Speed(speed);
-    
-  if (speed < 100) {
-    delay(2);
-  } else {
-    delay(speed/3);
-  }
+  change_of_velocity = 0;
 }
 
 void loop()
