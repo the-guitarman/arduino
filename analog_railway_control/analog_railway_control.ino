@@ -11,7 +11,11 @@
 
 DRV8835MotorShield motors;
 
-int change_of_velocity = 0;
+boolean change_of_velocity = false;
+boolean train_is_running = false;
+
+const int buttonPin = 53;
+int buttonState = 1;
 
 void setup()
 {
@@ -37,7 +41,7 @@ void set_speed_and_delay(int speed)
 
 void accelerate_train() 
 {
-  change_of_velocity = 1;
+  change_of_velocity = true;
   
   digitalWrite(LED_PIN, HIGH);
 
@@ -46,12 +50,13 @@ void accelerate_train()
     set_speed_and_delay(speed);
   }
 
-  change_of_velocity = 0;
+  train_is_running = true;
+  change_of_velocity = false;
 }
 
 void slow_train_down()
 {
-  change_of_velocity = 1;
+  change_of_velocity = true;
   
   for (int speed = 400; speed >= 0; speed--)
   {
@@ -60,18 +65,25 @@ void slow_train_down()
   
   digitalWrite(LED_PIN, LOW);
 
-  change_of_velocity = 0;
+  train_is_running = false;
+  change_of_velocity = false;
 }
 
 void loop()
 {
-  if (change_of_velocity == 0) 
+  if (change_of_velocity == false && train_is_running == false) 
   {
     accelerate_train();
-
-    delay(5000);
-
-    slow_train_down();
+    delay(20000);
+  }
+  
+  if (change_of_velocity == false && train_is_running == true) 
+  {
+    buttonState = digitalRead(buttonPin)
+    if (buttonState == LOW) 
+    {
+      slow_train_down();
+    }
   }
 
   
